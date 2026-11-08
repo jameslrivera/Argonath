@@ -1,0 +1,11 @@
+[package]
+name = "falcon-sbf-probe"
+version = "0.0.0"
+edition = "2021"
+
+[lib]
+crate-type = ["cdylib", "lib"]
+
+[dependencies]
+fn-dsa-vrfy = { version = "0.4.0", default-features = false }
+fn-dsa-comm = { version = "0.4.0", default-features = false }

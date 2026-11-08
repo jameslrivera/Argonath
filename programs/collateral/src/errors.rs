@@ -62,4 +62,12 @@ pub enum VaultError {
     InvalidPqMode,
     #[msg("Coordinator already uses the current layout")]
     CoordinatorAlreadyMigrated,
+    #[msg("ML-DSA verification state is not at the expected stage")]
+    MlDsaBadStage,
+    #[msg("ML-DSA bytes must be loaded sequentially within bounds")]
+    MlDsaBadOffset,
+    #[msg("ML-DSA public key or signature is malformed")]
+    MlDsaMalformed,
+    #[msg("ML-DSA signature verification failed")]
+    MlDsaVerifyFailed,
 }

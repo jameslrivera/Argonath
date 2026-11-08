@@ -1,0 +1,10 @@
+[package]
+name = "mldsa-sbf-probe"
+version = "0.0.0"
+edition = "2021"
+
+[lib]
+crate-type = ["cdylib", "lib"]
+
+[dependencies]
+fips204 = { version = "0.5.0", default-features = false, features = ["ml-dsa-44"] }

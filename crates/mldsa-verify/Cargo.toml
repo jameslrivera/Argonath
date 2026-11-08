@@ -1,0 +1,15 @@
+[package]
+name = "mldsa-verify"
+version = "0.1.0"
+edition = "2021"
+description = "no_std ML-DSA-44 (FIPS 204) signature verification, staged so it can stream across Solana transactions"
+
+[lib]
+crate-type = ["lib"]
+
+[dependencies]
+sha3 = { version = "0.10", default-features = false }
+
+[dev-dependencies]
+fips204 = { version = "0.5.0", default-features = false, features = ["ml-dsa-44", "default-rng"] }
+rand_core = { version = "0.6", features = ["getrandom"] }

@@ -531,6 +531,8 @@ version = "0.1.0"
 dependencies = [
  "anchor-lang",
  "anchor-spl",
+ "bytemuck",
+ "mldsa-verify",
  "pq-verify",
 ]
 
@@ -717,6 +719,17 @@ name = "find-msvc-tools"
 version = "0.1.15"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "1c66915cc5391097de7a2b0b972e8505aa33c0df401fd3a6811dbdb32881ba48"
+
+[[package]]
+name = "fips204"
+version = "0.5.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "a823e139c2d539b1b735d31cdce8b0b356671585eac3d54dec79d1d15052093b"
+dependencies = [
+ "rand_core 0.6.4",
+ "sha3",
+ "zeroize",
+]
 
 [[package]]
 name = "five8"
@@ -1000,6 +1013,15 @@ dependencies = [
  "keccak",
  "rand_core 0.6.4",
  "zeroize",
+]
+
+[[package]]
+name = "mldsa-verify"
+version = "0.1.0"
+dependencies = [
+ "fips204",
+ "rand_core 0.6.4",
+ "sha3",
 ]
 
 [[package]]
@@ -1422,6 +1444,7 @@ checksum = "77fd7028345d415a4034cf8777cd4f8ab1851274233b45f84e3d955502d93874"
 dependencies = [
  "digest 0.10.7",
  "keccak",
+ "zeroize",
 ]
 
 [[package]]

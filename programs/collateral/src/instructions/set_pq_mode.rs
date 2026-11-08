@@ -6,7 +6,7 @@ use crate::quorum::{
     approval_digest, set_pq_mode_params_hash, verify_pq_approval, verify_quorum,
     ACTION_SET_PQ_MODE,
 };
-use crate::state::{Coordinator, PqVerifyState, PQ_MODE_HYBRID, PQ_MODE_OFF};
+use crate::state::{Coordinator, PQ_MODE_MLDSA, PQ_MODE_OFF};
 
 #[derive(Accounts)]
 pub struct SetPqMode<'info> {
@@ -21,7 +21,8 @@ pub struct SetPqMode<'info> {
     /// CHECK: validated by address against the instructions sysvar id
     #[account(address = INSTRUCTIONS_ID)]
     pub instructions_sysvar: AccountInfo<'info>,
-    pub pq_state: Option<Box<Account<'info, PqVerifyState>>>,
+    /// CHECK: owner, discriminator and contents are validated in verify_pq_approval according to the coordinator's pq_mode
+    pub pq_state: Option<UncheckedAccount<'info>>,
 }
 
 pub fn set_pq_mode_handler(
@@ -30,10 +31,7 @@ pub fn set_pq_mode_handler(
     pk_commit: [u8; 32],
     expiry_slot: u64,
 ) -> Result<()> {
-    require!(
-        mode == PQ_MODE_OFF || mode == PQ_MODE_HYBRID,
-        VaultError::InvalidPqMode
-    );
+    require!(mode <= PQ_MODE_MLDSA, VaultError::InvalidPqMode);
     require!(
         mode == PQ_MODE_OFF || pk_commit != [0u8; 32],
         VaultError::InvalidPqMode
@@ -54,7 +52,8 @@ pub fn set_pq_mode_handler(
         &params_hash,
     );
     verify_quorum(&ctx.accounts.instructions_sysvar, coordinator, &digest)?;
-    verify_pq_approval(coordinator, ctx.accounts.pq_state.as_deref(), &digest)?;
+    let pq_info = ctx.accounts.pq_state.as_ref().map(|a| a.to_account_info());
+    verify_pq_approval(coordinator, pq_info.as_ref(), &digest)?;
 
     let coordinator = &mut ctx.accounts.coordinator;
     coordinator.pq_mode = mode;

@@ -2,7 +2,7 @@
 name = "pq-verify"
 version = "0.1.0"
 edition = "2021"
-description = "no_std WOTS and XMSS verification for the PQ Solana Collateral Vault"
+description = "no_std WOTS and XMSS verification for Argonath"
 
 [lib]
 crate-type = ["lib"]

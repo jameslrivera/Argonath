@@ -1,0 +1,79 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+env:
+  SOLANA_VERSION: 4.3.2
+  ANCHOR_VERSION: 0.31.1
+
+jobs:
+  host-tests:
+    name: host unit tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2
+      - run: cargo test -p mldsa-verify
+      - run: cargo test -p pq-verify
+      - run: cargo test -p collateral --lib
+
+  anchor-tests:
+    name: anchor build and on-chain tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2
+        with:
+          cache-targets: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: yarn
+
+      - name: install solana
+        run: |
+          sh -c "$(curl -sSfL https://release.anza.xyz/v${SOLANA_VERSION}/install)"
+          echo "$HOME/.local/share/solana/install/active_release/bin" >> "$GITHUB_PATH"
+
+      - name: cache anchor cli
+        id: anchor-cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.cargo/bin/anchor
+          key: anchor-cli-${{ env.ANCHOR_VERSION }}-${{ runner.os }}
+
+      - name: install anchor
+        if: steps.anchor-cache.outputs.cache-hit != 'true'
+        run: cargo install --git https://github.com/coral-xyz/anchor --tag v${ANCHOR_VERSION} anchor-cli --locked
+
+      - name: cache sbf platform tools
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/solana
+          key: platform-tools-${{ env.SOLANA_VERSION }}-${{ runner.os }}
+
+      - run: yarn install --frozen-lockfile
+      - run: solana-keygen new --no-bip39-passphrase --silent -o ~/.config/solana/id.json
+      - run: anchor build
+      - run: anchor test --skip-build
+
+      - name: authorizer builds
+        working-directory: authorizer
+        run: |
+          npm install
+          npm run build
+
+      - name: keep the benchmark output
+        uses: actions/upload-artifact@v4
+        with:
+          name: bench-results
+          path: |
+            bench/results.csv
+            bench/mldsa-results.csv
+          if-no-files-found: ignore

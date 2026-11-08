@@ -104,4 +104,32 @@ pub mod collateral {
     pub fn migrate_coordinator(ctx: Context<MigrateCoordinator>) -> Result<()> {
         instructions::migrate_coordinator::migrate_coordinator_handler(ctx)
     }
+
+    pub fn ml_dsa_open(ctx: Context<MlDsaOpen>, digest: [u8; 32]) -> Result<()> {
+        instructions::mldsa_verify::ml_dsa_open_handler(ctx, digest)
+    }
+
+    pub fn ml_dsa_load(ctx: Context<MlDsaStep>, offset: u32, data: Vec<u8>) -> Result<()> {
+        instructions::mldsa_verify::ml_dsa_load_handler(ctx, offset, data)
+    }
+
+    pub fn ml_dsa_expand(ctx: Context<MlDsaStep>, count: u8) -> Result<()> {
+        instructions::mldsa_verify::ml_dsa_expand_handler(ctx, count)
+    }
+
+    pub fn ml_dsa_prepare_hash(ctx: Context<MlDsaStep>) -> Result<()> {
+        instructions::mldsa_verify::ml_dsa_prepare_hash_handler(ctx)
+    }
+
+    pub fn ml_dsa_prepare_polys(ctx: Context<MlDsaStep>) -> Result<()> {
+        instructions::mldsa_verify::ml_dsa_prepare_polys_handler(ctx)
+    }
+
+    pub fn ml_dsa_row(ctx: Context<MlDsaStep>, count: u8) -> Result<()> {
+        instructions::mldsa_verify::ml_dsa_row_handler(ctx, count)
+    }
+
+    pub fn ml_dsa_finalize(ctx: Context<MlDsaStep>) -> Result<()> {
+        instructions::mldsa_verify::ml_dsa_finalize_handler(ctx)
+    }
 }

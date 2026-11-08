@@ -6,7 +6,7 @@ use crate::quorum::{
     approval_digest, rotate_admins_params_hash, verify_pq_approval, verify_quorum,
     ACTION_ROTATE_ADMINS,
 };
-use crate::state::{Coordinator, PqVerifyState, MAX_ADMINS};
+use crate::state::{Coordinator, MAX_ADMINS};
 
 #[derive(Accounts)]
 pub struct RotateAdmins<'info> {
@@ -21,7 +21,8 @@ pub struct RotateAdmins<'info> {
     /// CHECK: validated by address against the instructions sysvar id
     #[account(address = INSTRUCTIONS_ID)]
     pub instructions_sysvar: AccountInfo<'info>,
-    pub pq_state: Option<Box<Account<'info, PqVerifyState>>>,
+    /// CHECK: owner, discriminator and contents are validated in verify_pq_approval according to the coordinator's pq_mode
+    pub pq_state: Option<UncheckedAccount<'info>>,
 }
 
 pub fn rotate_admins_handler(
@@ -54,7 +55,8 @@ pub fn rotate_admins_handler(
         &params_hash,
     );
     verify_quorum(&ctx.accounts.instructions_sysvar, coordinator, &digest)?;
-    verify_pq_approval(coordinator, ctx.accounts.pq_state.as_deref(), &digest)?;
+    let pq_info = ctx.accounts.pq_state.as_ref().map(|a| a.to_account_info());
+    verify_pq_approval(coordinator, pq_info.as_ref(), &digest)?;
 
     let coordinator = &mut ctx.accounts.coordinator;
     coordinator.admins = new_admins;

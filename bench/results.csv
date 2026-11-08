@@ -1,0 +1,14 @@
+scheme,metric,value
+WOTS-SHA256-w16,chains,67
+WOTS-SHA256-w16,signature_bytes,2144
+WOTS-SHA256-w16,chunk_size,16
+WOTS-SHA256-w16,chunks,5
+WOTS-SHA256-w16,chunk_0_cu,26672
+WOTS-SHA256-w16,chunk_1_cu,26687
+WOTS-SHA256-w16,chunk_2_cu,27387
+WOTS-SHA256-w16,chunk_3_cu,23852
+WOTS-SHA256-w16,chunk_4_cu,11275
+WOTS-SHA256-w16,max_chunk_cu,27387
+WOTS-SHA256-w16,finalize_cu,4302
+WOTS-SHA256-w16,total_verify_cu,120175
+WOTS-SHA256-w16,transactions,6

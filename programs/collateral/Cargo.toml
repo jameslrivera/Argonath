@@ -1,7 +1,7 @@
 [package]
 name = "collateral"
 version = "0.1.0"
-description = "PQ Solana Collateral Vault"
+description = "Argonath: PQ-hardened stablecoin card-collateral vault"
 edition = "2021"
 
 [lib]
@@ -22,3 +22,5 @@ pq = []
 anchor-lang = { version = "0.31.1", features = ["init-if-needed"] }
 anchor-spl = "0.31.1"
 pq-verify = { path = "../../crates/pq-verify" }
+mldsa-verify = { path = "../../crates/mldsa-verify" }
+bytemuck = { version = "1", features = ["derive", "min_const_generics"] }

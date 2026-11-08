@@ -1,0 +1,27 @@
+{
+  "name": "argonath-authorizer",
+  "version": "0.1.0",
+  "private": true,
+  "type": "commonjs",
+  "bin": {
+    "sign-approval": "dist/sign-approval.js"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "start": "ts-node src/server.ts",
+    "sign": "ts-node src/sign-approval.ts"
+  },
+  "dependencies": {
+    "@coral-xyz/anchor": "^0.31.1",
+    "@noble/post-quantum": "^0.4.1",
+    "@solana/spl-token": "^0.4.9",
+    "@solana/web3.js": "^1.98.0",
+    "fastify": "^4.28.1",
+    "tweetnacl": "^1.0.3"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.7.2"
+  }
+}

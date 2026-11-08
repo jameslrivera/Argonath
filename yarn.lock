@@ -51,6 +51,13 @@
   resolved "https://registry.yarnpkg.com/@noble/hashes/-/hashes-1.8.0.tgz#cee43d801fcef9644b11b8194857695acd5f815a"
   integrity sha512-jCs9ldd7NwzpgXDIf6P3+NrHh9/sD6CQdxHyjQI+h/6rDNo88ypBxxz45UDuZHz9r3tNz7N/VInSVoVdtXEI4A==
 
+"@noble/post-quantum@0.4.1":
+  version "0.4.1"
+  resolved "https://registry.yarnpkg.com/@noble/post-quantum/-/post-quantum-0.4.1.tgz#c192781c1db9fd02f746efd16bc18cef3b0af37f"
+  integrity sha512-TRXjvnY9jAFNWbxOx+pKt21BNsCEWKFjMbIKwdx9CQXBudDanpY20EfOcooV7DIsRS/+Mf8D8utpUPjfGrQ8fA==
+  dependencies:
+    "@noble/hashes" "1.8.0"
+
 "@solana/buffer-layout-utils@^0.3.0":
   version "0.3.0"
   resolved "https://registry.yarnpkg.com/@solana/buffer-layout-utils/-/buffer-layout-utils-0.3.0.tgz#88a5d69fd5606fee198f719d37065b43796a396e"

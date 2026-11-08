@@ -14,3 +14,10 @@ authorizer/node_modules
 fuzz/target
 fuzz/corpus
 fuzz/artifacts
+
+# local-only: deploy/exploit scripts, demo drivers, demo evidence
+scripts/
+authorizer/src/demo-devnet.ts
+authorizer/src/setup-demo.ts
+docs/devnet-run.md
+authorizer/src/demo-live.ts

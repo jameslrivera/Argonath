@@ -4,6 +4,7 @@ pub const MAX_ADMINS: usize = 8;
 
 pub const PQ_MODE_OFF: u8 = 0;
 pub const PQ_MODE_HYBRID: u8 = 1;
+pub const PQ_MODE_MLDSA: u8 = 2;
 
 #[account] 
 #[derive(InitSpace)]
@@ -68,5 +69,44 @@ pub struct PqVerifyState {
 impl PqVerifyState {
     pub fn all_filled(&self) -> bool {
         self.filled_bitmap == (1u128 << PQ_LEN) - 1
+    }
+}
+
+pub const MLDSA_BLOB_BYTES: usize = mldsa_verify::PK_BYTES + mldsa_verify::SIG_BYTES;
+pub const MLDSA_STAGE_LOADING: u8 = 0;
+pub const MLDSA_STAGE_EXPANDING: u8 = 1;
+pub const MLDSA_STAGE_HASH: u8 = 2;
+pub const MLDSA_STAGE_POLYS: u8 = 3;
+pub const MLDSA_STAGE_ROWS: u8 = 4;
+pub const MLDSA_STAGE_FINALIZE: u8 = 5;
+pub const MLDSA_STAGE_DONE: u8 = 6;
+
+#[account(zero_copy)]
+pub struct MlDsaVerifyState {
+    pub a_hat: [i32; 4096],
+    pub z_hat: [i32; 1024],
+    pub t1_hat: [i32; 1024],
+    pub c_hat: [i32; 256],
+    pub authority: Pubkey,
+    pub digest: [u8; 32],
+    pub mu: [u8; 64],
+    pub pk_hash: [u8; 32],
+    pub w1_enc: [u8; 768],
+    pub blob: [u8; 3732],
+    pub loaded: u32,
+    pub a_done: u8,
+    pub stage: u8,
+    pub rows_done: u8,
+    pub done: u8,
+}
+
+impl MlDsaVerifyState {
+    pub const SPACE: usize = 8 + core::mem::size_of::<MlDsaVerifyState>();
+
+    pub fn pk(&self) -> &[u8] {
+        &self.blob[..mldsa_verify::PK_BYTES]
+    }
+    pub fn sig(&self) -> &[u8] {
+        &self.blob[mldsa_verify::PK_BYTES..]
     }
 }
