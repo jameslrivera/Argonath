@@ -1,0 +1,25 @@
+[package]
+name = "collateral-fuzz"
+version = "0.0.0"
+edition = "2021"
+publish = false
+
+[package.metadata]
+cargo-fuzz = true
+
+[dependencies]
+libfuzzer-sys = "0.4"
+anchor-lang = "0.31.1"
+
+[dependencies.collateral]
+path = "../programs/collateral"
+
+[[bin]]
+name = "quorum_scan"
+path = "fuzz_targets/quorum_scan.rs"
+test = false
+doc = false
+bench = false
+
+[profile.release]
+debug = 1

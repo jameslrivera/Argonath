@@ -91,4 +91,17 @@ pub mod collateral {
     pub fn pq_finalize(ctx: Context<PqFinalize>) -> Result<()> {
         instructions::pq_verify::pq_finalize_handler(ctx)
     }
+
+    pub fn set_pq_mode(
+        ctx: Context<SetPqMode>,
+        mode: u8,
+        pk_commit: [u8; 32],
+        expiry_slot: u64,
+    ) -> Result<()> {
+        instructions::set_pq_mode::set_pq_mode_handler(ctx, mode, pk_commit, expiry_slot)
+    }
+
+    pub fn migrate_coordinator(ctx: Context<MigrateCoordinator>) -> Result<()> {
+        instructions::migrate_coordinator::migrate_coordinator_handler(ctx)
+    }
 }

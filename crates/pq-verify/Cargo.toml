@@ -1,0 +1,11 @@
+[package]
+name = "pq-verify"
+version = "0.1.0"
+edition = "2021"
+description = "no_std WOTS and XMSS verification for the PQ Solana Collateral Vault"
+
+[lib]
+crate-type = ["lib"]
+
+[dev-dependencies]
+sha2 = "0.10"

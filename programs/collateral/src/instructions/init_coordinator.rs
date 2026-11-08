@@ -1,7 +1,7 @@
 use anchor_lang::prelude::*;
 
 use crate::errors::VaultError;
-use crate::state::{Coordinator, MAX_ADMINS};
+use crate::state::{Coordinator, MAX_ADMINS, PQ_MODE_OFF};
 
 #[derive(Accounts)]
 pub struct InitCoordinator<'info> {
@@ -39,5 +39,7 @@ pub fn init_coordinator_handler(
     coordinator.nonce = 0;
     coordinator.paused = false;
     coordinator.bump = ctx.bumps.coordinator;
+    coordinator.pq_mode = PQ_MODE_OFF;
+    coordinator.pq_pk_commit = [0u8; 32];
     Ok(())
 }

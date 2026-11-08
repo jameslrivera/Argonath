@@ -52,4 +52,14 @@ pub enum VaultError {
     PqCommitmentMismatch,
     #[msg("Empty chunk")]
     PqEmptyChunk,
+    #[msg("Hybrid mode requires a finalized post-quantum approval")]
+    PqApprovalRequired,
+    #[msg("Post-quantum approval does not match this action")]
+    PqDigestMismatch,
+    #[msg("Post-quantum approval was not made under the coordinator's PQ key")]
+    PqKeyMismatch,
+    #[msg("Unknown post-quantum mode or empty key commitment")]
+    InvalidPqMode,
+    #[msg("Coordinator already uses the current layout")]
+    CoordinatorAlreadyMigrated,
 }

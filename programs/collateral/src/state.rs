@@ -2,16 +2,21 @@ use anchor_lang::prelude::*;
 
 pub const MAX_ADMINS: usize = 8;
 
-#[account]
+pub const PQ_MODE_OFF: u8 = 0;
+pub const PQ_MODE_HYBRID: u8 = 1;
+
+#[account] 
 #[derive(InitSpace)]
 pub struct Coordinator {
     pub issuer_authority: Pubkey,
     #[max_len(MAX_ADMINS)]
     pub admins: Vec<Pubkey>,
-    pub threshold: u8,
+    pub threshold:u8,
     pub nonce: u64,
     pub paused: bool,
     pub bump: u8,
+    pub pq_mode: u8,
+    pub pq_pk_commit: [u8; 32],
 }
 
 #[account]
@@ -25,6 +30,7 @@ pub struct Collateral {
     pub settled: u64,
     pub hold_count: u64,
     pub bump: u8,
+
 }
 
 #[account]
