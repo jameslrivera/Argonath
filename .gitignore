@@ -1,0 +1,16 @@
+.anchor
+.DS_Store
+target
+node_modules
+dist
+test-ledger
+.yarn
+*.log
+.env
+setup.json
+setup.err
+authorizer/dist
+authorizer/node_modules
+fuzz/target
+fuzz/corpus
+fuzz/artifacts
